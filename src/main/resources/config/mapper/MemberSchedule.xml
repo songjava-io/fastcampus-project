@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.songjava.web.mapper.MemberScheduleMapper">
+
+	<select id="getList" parameterType="int"
+			resultType="kr.songjava.web.domain.MemberSchedule">
+		SELECT
+			SCHEDULE_TYPE,
+			SCHEDULE_DATE,
+			START_TIME,
+			END_TIME,
+			TITLE
+		FROM T_MEMBER_SCHEDULE
+		WHERE MEMBER_SEQ = #{memberSeq}
+		ORDER BY SCHEDULE_DATE DESC, START_TIME ASC, END_TIME ASC
+	</select>
+
+	<select id="get" parameterType="int"
+			resultType="kr.songjava.web.domain.MemberSchedule">
+		SELECT
+			SECHEDULE_SEQ,
+			MEMBER_SEQ,
+			SCHEDULE_TYPE,
+			SCHEDULE_DATE,
+			START_TIME,
+			END_TIME,
+			TITLE
+		FROM T_MEMBER_SCHEDULE
+		WHERE SECHEDULE_SEQ = #{scheduleSeq}
+	</select>
+
+	<insert id="save" parameterType="kr.songjava.web.domain.MemberSchedule">
+		INSERT INTO T_MEMBER_SCHEDULE
+		(
+		 	MEMBER_SEQ,
+			SCHEDULE_TYPE,
+			SCHEDULE_DATE,
+			START_TIME,
+			END_TIME,
+			TITLE,
+			REG_DATE
+		)
+		VALUES
+		(
+			#{member_seq},
+			#{schedule_type},
+			#{schedule_date},
+			#{start_time},
+			#{end_time},
+			#{title},
+			NOW()
+		)
+	</insert>
+
+	<update id="update" parameterType="kr.songjava.web.domain.MemberSchedule">
+		UPDATE T_MEMBER_SCHEDULE
+		SET
+			SCHEDULE_TYPE = #{schedule_type},
+			SCHEDULE_DATE = #{schedule_date},
+			START_TIME = #{start_time},
+			END_TIME = #{end_time},
+			TITLE = #{title}
+		WHERE SCHEDULE_SEQ = #{scheduleSeq}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM T_MEMBER_SCHEDULE
+		WHERE SCHEDULE_SEQ = #{scheduleSeq}
+	</delete>
+
+</mapper>
+
+
