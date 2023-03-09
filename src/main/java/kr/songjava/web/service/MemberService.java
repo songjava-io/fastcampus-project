@@ -1,7 +1,10 @@
 package kr.songjava.web.service;
 
 import java.util.Arrays;
+import java.util.List;
 
+import kr.songjava.web.domain.*;
+import kr.songjava.web.mapper.MemberScheduleMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,10 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.songjava.web.domain.Member;
-import kr.songjava.web.domain.Message;
-import kr.songjava.web.domain.MessageState;
-import kr.songjava.web.domain.MessageType;
 import kr.songjava.web.mapper.MemberMapper;
 import kr.songjava.web.mapper.MessageMapper;
 import kr.songjava.web.security.userdetails.SecurityUserDetails;
@@ -30,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService implements UserDetailsService {
 
 	private final MemberMapper memberMapper;
+	private final MemberScheduleMapper memberScheduleMapper;
 	private final MessageMapper messageMapper;
 	
 	private final PasswordEncoder passwordEncoder;
@@ -70,6 +70,15 @@ public class MemberService implements UserDetailsService {
 		message.setReceiveEmail(member.getAccount());
 		messageMapper.insertMessage(message);
 	}
+
+	public void saveSchedule(MemberSchedule schedule) {
+		MemberSchedule data = memberScheduleMapper.get(schedule.getScheduleSeq());
+		if(data != null) {
+			memberScheduleMapper.update(schedule);
+		} else {
+			memberScheduleMapper.save(schedule);
+		}
+	}
 	
 	/**
 	 * 회원 로그인 일자 업데이트
@@ -109,5 +118,16 @@ public class MemberService implements UserDetailsService {
 			.authorities(Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")))
 			.build();
 	}
-	
+
+	public List<MemberSchedule> getScheduleList(int memberSeq) {
+		return memberScheduleMapper.getList(memberSeq);
+	}
+
+	public MemberSchedule getSchedule(int scheduleSeq) {
+		return memberScheduleMapper.get(scheduleSeq);
+	}
+
+	public void deleteSchedule(int memberSeq){
+		memberScheduleMapper.delete(memberSeq);
+	}
 }
