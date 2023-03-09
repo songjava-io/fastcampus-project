@@ -13,6 +13,7 @@ import kr.songjava.web.configuration.properties.FileProperties;
 import kr.songjava.web.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @RequiredArgsConstructor

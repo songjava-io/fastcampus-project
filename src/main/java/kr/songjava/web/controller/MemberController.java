@@ -84,6 +84,7 @@ public class MemberController {
 		memberService.save(member);
 		return ResponseEntity.ok(true);
 	}
-	
+
+
 	
 }

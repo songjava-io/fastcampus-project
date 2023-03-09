@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.songjava.web.mapper.MemberScheduleMapper">
+
+    <select id="getList" parameterType="int"
+            resultType="kr.songjava.web.domain.MemberSchedule">
+        SELECT
+            schedule_type,
+            schedule_date,
+            start_time,
+            end_time,
+            title
+        FROM t_member_schedule
+        WHERE member_seq = #{memberSeq}
+        ORDER BY schedule_date desc, start_time asc, end_time asc
+    </select>
+
+    <select id="get" parameterType="int"
+            resultType="kr.songjava.web.domain.MemberSchedule">
+        SELECT
+            schedule_seq,
+            member_seq,
+            schedule_type,
+            schedule_date,
+            start_time,
+            end_time,
+            title
+        FROM t_member_schedule
+        WHERE schedule_seq = #{scheduleSeq}
+    </select>
+
+    <insert id="save" parameterType="kr.songjava.web.domain.MemberSchedule">
+        INSERT INTO t_member_schedule
+        (
+            member_seq,
+            schedule_type,
+            schedule_date,
+            start_time,
+            end_time,
+            title,
+            reg_date
+        )
+        VALUES
+        (
+            #{memberSeq},
+            #{scheduleType},
+            #{scheduleDate},
+            #{startTime},
+            #{endTime},
+            #{title},
+            now()
+        )
+    </insert>
+
+    <update id="update" parameterType="kr.songjava.web.domain.MemberSchedule">
+        UPDATE t_member_schedule
+        SET
+            schedule_type = #{scheduleType},
+            schedule_date = #{scheduleDate},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            title = #{title}
+        WHERE
+            shedule_seq = #{scheduleSeq}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_member_schedule
+        WHERE schedule_seq = #{scheduleSeq}
+    </delete>
+
+</mapper>
