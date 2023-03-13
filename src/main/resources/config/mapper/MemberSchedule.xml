@@ -5,6 +5,7 @@
 
 <mapper namespace="kr.songjava.web.mapper.MemberScheduleMapper">
 
+
 	<select id="getList" parameterType="int"
 			resultType="kr.songjava.web.domain.MemberSchedule">
 		SELECT
@@ -14,7 +15,11 @@
 			END_TIME,
 			TITLE
 		FROM T_MEMBER_SCHEDULE
-		WHERE MEMBER_SEQ = #{memberSeq}
+		<where>
+			<if test="memberSeq != null AND memberSeq > 0">
+			AND MEMBER_SEQ = #{memberSeq}
+			</if>
+		</where>
 		ORDER BY SCHEDULE_DATE DESC, START_TIME ASC, END_TIME ASC
 	</select>
 

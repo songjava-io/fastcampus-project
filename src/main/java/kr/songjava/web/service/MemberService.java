@@ -118,6 +118,10 @@ public class MemberService implements UserDetailsService {
 			.build();
 	}
 
+	public List<MemberSchedule> getScheduleList() {
+		return getScheduleList(0);
+	}
+
 	public List<MemberSchedule> getScheduleList(int memberSeq) {
 		return memberScheduleMapper.getList(memberSeq);
 	}

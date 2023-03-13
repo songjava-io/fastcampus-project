@@ -1,7 +1,10 @@
 package kr.songjava.web.controller;
 
 import kr.songjava.web.domain.EventExcel;
+import kr.songjava.web.domain.ScheduleTime;
+import kr.songjava.web.domain.ScheduleType;
 import kr.songjava.web.exception.ApiException;
+import kr.songjava.web.response.ScheduleDefaultInfo;
 import kr.songjava.web.service.EventService;
 import kr.songjava.web.validation.annotation.NotEmptyMultipartFile;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -98,5 +102,13 @@ public class EventController {
 		}
 		// 그외 브라우져
 		return new String(filename.getBytes(StandardCharsets.UTF_8.name()), StandardCharsets.ISO_8859_1.name());
+	}
+
+	@GetMapping("/default-info")
+	public ScheduleDefaultInfo defaultInfo() {
+		return ScheduleDefaultInfo.builder()
+						.scheduleTimes(ScheduleTime.values())
+						.scheduleTypes(ScheduleType.values())
+						.build();
 	}
 }

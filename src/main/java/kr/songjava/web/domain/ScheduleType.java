@@ -1,5 +1,9 @@
 package kr.songjava.web.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import kr.songjava.web.configuration.serializer.ScheduleTypeSerializer;
+
+@JsonSerialize(using = ScheduleTypeSerializer.class)
 public enum ScheduleType {
 
 	WORK("업무"),

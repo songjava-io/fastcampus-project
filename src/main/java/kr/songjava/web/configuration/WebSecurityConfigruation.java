@@ -52,14 +52,27 @@ public class WebSecurityConfigruation {
 				"/member/save",
 				"/file/download",
 				"/event/**",
+				"/member/schedule",
+				"/member/schedule/**",
+				"/v2/api-docs",
+				"/swagger-resources",
+				"/swagger-resources/**",
+				"/configuration/ui",
+				"/configuration/security",
+				"/swagger-ui.html",
+				"/swagger-api.html",
+				"/v3/api-docs",
+				"/v3/api-docs/**",
+				"/swagger-ui/**",
+
 				fileProperties.resourcePath()
 			)
 			.permitAll()
 			// 나머지 요청은 로그인을 해야 접근되게
 			.anyRequest().hasRole("USER").and()
-			
 			.oauth2Login().successHandler(oauth2AuthenticationSuccessHandler).failureHandler(usernamePasswordAuthenticationFailureHandler)
 				.userInfoEndpoint().userService(securityOauth2Service)
+
 			.and().and()
 			.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)		

@@ -1,10 +1,14 @@
 package kr.songjava.web.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.songjava.web.domain.Member;
 import kr.songjava.web.domain.MemberSchedule;
+import kr.songjava.web.domain.ScheduleTime;
+import kr.songjava.web.domain.ScheduleType;
 import kr.songjava.web.exception.ApiException;
 import kr.songjava.web.form.MemberSaveUploadForm;
 import kr.songjava.web.form.MemberScheduleSaveForm;
+import kr.songjava.web.response.ScheduleDefaultInfo;
 import kr.songjava.web.security.userdetails.OAuth2KakaoAccount;
 import kr.songjava.web.security.userdetails.SecurityUserDetails;
 import kr.songjava.web.service.FileCopyResult;
@@ -22,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 회원 일정관리 컨트롤러
@@ -32,6 +38,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 @Slf4j
+@Tag(name = "회원 일정관리")
 public class ScheduleController {
 
 	private final MemberService memberService;
@@ -46,6 +53,17 @@ public class ScheduleController {
 		return memberService.getScheduleList(userDetails.getMemberSeq());
 	}
 
+	/**
+	 * 스케줄 등록/수정 화면에 사용할 기본 정보를 리턴
+	 * @return
+	 */
+	@GetMapping("/default-info")
+	public ScheduleDefaultInfo defaultInfo() {
+		return ScheduleDefaultInfo.builder()
+			.scheduleTimes(ScheduleTime.values())
+			.scheduleTypes(ScheduleType.values())
+			.build();
+	}
 	/**
 	 * 일정 등록/수정 처리
 	 * @param form

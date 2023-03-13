@@ -45,6 +45,7 @@ public class JwtTokenAuthenticationManager implements AuthenticationManager {
 			log.debug("claim.username() : {}", claimLogin.username());
 			return new UsernamePasswordAuthenticationToken(
 				SecurityUserDetails.builder()
+					.memberSeq(member.getMemberSeq())
 					.username(claimLogin.username())
 					.password(member.getPassword())
 					.authorities(claimLogin.authorities())

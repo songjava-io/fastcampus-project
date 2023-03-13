@@ -27,6 +27,7 @@ logging:
   level: 
     root: info
     '[kr.songjava]': DEBUG
+
     
 # 파일 업로드 관련 설정    
 file:
@@ -39,8 +40,10 @@ email:
 
 frontend:
   domain: http://dev-spring.com:3000
-
-
+springdoc:
+  swagger-ui:
+    path: /swagger-api.html
+    with-credentials: true
 
 
 
