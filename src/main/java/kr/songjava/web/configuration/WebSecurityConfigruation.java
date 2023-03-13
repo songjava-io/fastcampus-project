@@ -45,37 +45,39 @@ public class WebSecurityConfigruation {
 		CorsConfigurationSource corsConfigurationSource,
 		UsernamePasswordAuthenticationFailureHandler usernamePasswordAuthenticationFailureHandler) throws Exception {
 		http.authorizeRequests()
-			// 해당 url 패턴은 로그인 권한없어도 접근되게
-			.antMatchers(
-				"/",
-				"/public/**", 
-				"/member/save",
-				"/file/download",
-				"/event/**",
-				fileProperties.resourcePath()
-			)
-			.permitAll()
-			// 나머지 요청은 로그인을 해야 접근되게
-			.anyRequest().hasRole("USER").and()
-			
-			.oauth2Login().successHandler(oauth2AuthenticationSuccessHandler).failureHandler(usernamePasswordAuthenticationFailureHandler)
+				// 해당 url 패턴은 로그인 권한없어도 접근되게
+				.antMatchers(
+						"/",
+						"/public/**",
+						"/member/save",
+						"/file/download",
+						"/event/**",
+						"/member/schedule",
+						"/member/schedule/**",
+						fileProperties.resourcePath()
+				)
+				.permitAll()
+				// 나머지 요청은 로그인을 해야 접근되게
+				.anyRequest().hasRole("USER").and()
+
+				.oauth2Login().successHandler(oauth2AuthenticationSuccessHandler).failureHandler(usernamePasswordAuthenticationFailureHandler)
 				.userInfoEndpoint().userService(securityOauth2Service)
-			.and().and()
-			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)		
-			.and()
-			.formLogin(form -> {
-				form.successHandler(jwtTokenAuthenticationSuccessHandler);
-				form.failureHandler(usernamePasswordAuthenticationFailureHandler);
-				form.permitAll();
-			})
-			.csrf().disable()
-			.cors().configurationSource(corsConfigurationSource)
-			.and()
-			// Jwt Token이 서버로 오는경우 토큰 인증에 필요하기 때문에
-			.addFilterBefore(
-				new BearerTokenAuthenticationFilter(jwtTokenAuthenticationManager),
-					AnonymousAuthenticationFilter.class);
+				.and().and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.formLogin(form -> {
+					form.successHandler(jwtTokenAuthenticationSuccessHandler);
+					form.failureHandler(usernamePasswordAuthenticationFailureHandler);
+					form.permitAll();
+				})
+				.csrf().disable()
+				.cors().configurationSource(corsConfigurationSource)
+				.and()
+				// Jwt Token이 서버로 오는경우 토큰 인증에 필요하기 때문에
+				.addFilterBefore(
+						new BearerTokenAuthenticationFilter(jwtTokenAuthenticationManager),
+						AnonymousAuthenticationFilter.class);
 		return http.build();
 	}
 	

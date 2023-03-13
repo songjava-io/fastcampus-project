@@ -11,6 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,7 +31,14 @@ import lombok.extern.slf4j.Slf4j;
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	private final FileProperties fileProperties;
-	
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+				.allowedOrigins("*")
+				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+}
+
 	@Bean
 	MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
@@ -95,6 +103,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 			.addResourceLocations("file://" + rootPath);
 		}		
 	}
+
 	
 	
 }

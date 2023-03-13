@@ -1,5 +1,8 @@
 package kr.songjava.web.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import kr.songjava.web.configuration.serializer.ScheduleTimeSerializer;
+
 /**
  * packageName :  kr.songjava.web.domain
  * fileName : ScheduleTime
@@ -7,6 +10,7 @@ package kr.songjava.web.domain;
  * date : 2023-03-09
  * description :
  */
+@JsonSerialize(using = ScheduleTimeSerializer.class)
 public enum ScheduleTime {
     TOO("0", "00"),
     TO1("1", "01"),

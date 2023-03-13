@@ -1,5 +1,8 @@
 package kr.songjava.web.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import kr.songjava.web.configuration.serializer.ScheduleTypeSerializer;
+
 /**
  * packageName :  kr.songjava.web.domain
  * fileName : ScheduleType
@@ -7,6 +10,7 @@ package kr.songjava.web.domain;
  * date : 2023-03-09
  * description :
  */
+@JsonSerialize(using = ScheduleTypeSerializer.class)
 public enum ScheduleType {
     WORK("업무"),
     VACATION("휴가"),

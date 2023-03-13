@@ -1,8 +1,11 @@
 package kr.songjava.web.controller;
 
 import kr.songjava.web.domain.MemberSchedule;
+import kr.songjava.web.domain.ScheduleTime;
+import kr.songjava.web.domain.ScheduleType;
 import kr.songjava.web.exception.ApiException;
 import kr.songjava.web.form.MemberScheduleSaveForm;
+import kr.songjava.web.response.ScheduleDefaultInfo;
 import kr.songjava.web.security.userdetails.SecurityUserDetails;
 import kr.songjava.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +41,19 @@ public class ScheduleController {
 	@GetMapping
 	public List<MemberSchedule> getList(@AuthenticationPrincipal SecurityUserDetails userDetails) {
 		return memberService.getScheduleList(userDetails.getMemberSeq());
+	}
+
+	/**
+	 * 스케줄 등록/수정 화면에 사용할 기본 정보를 리턴
+	 *
+	 * @return the schedule default info
+	 */
+	@GetMapping("/default-info")
+	public ScheduleDefaultInfo defaultInfo() {
+		return new ScheduleDefaultInfo().builder()
+				.scheduleTimes(ScheduleTime.values())
+				.scheduleTypes(ScheduleType.values())
+				.build();
 	}
 
 	/**
