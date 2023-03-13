@@ -16,7 +16,7 @@
 			TITLE
 		FROM T_MEMBER_SCHEDULE
 		<where>
-			<if test="memberSeq != null AND memberSeq > 0">
+			<if test="memberSeq > 0">
 			AND MEMBER_SEQ = #{memberSeq}
 			</if>
 		</where>
