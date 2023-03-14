@@ -3,6 +3,11 @@ package kr.songjava.web.controller;
 import java.io.IOException;
 import java.net.URL;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Validated
 @Slf4j
+@Tag(name = "Member", description = "회원 API")
 public class MemberController {
 
 	private final MemberService memberService;
@@ -42,7 +48,9 @@ public class MemberController {
 	 * @throws IOException 
 	 */
 	@PostMapping("/save")
-	public HttpEntity<Boolean> save(@Validated MemberSaveUploadForm form,
+	@Operation(summary = "회원 가입 등록/수정", description = "회원 가입 양식 및 프로필 이미지 업로드 등록/수정 처리를 한다.")
+	@ApiResponse(description = "회원가입 성공에 대한 boolean 리턴")
+	public HttpEntity<Boolean> save(@Validated @Parameter(name = "form", required = true, description = "회원가입 폼") MemberSaveUploadForm form,
 			@AuthenticationPrincipal OAuth2KakaoAccount kakaoAccount) throws IOException {
 		log.info("form : {}", form);
 		log.info("nickname : {}", form.getNickname());

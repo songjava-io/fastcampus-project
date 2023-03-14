@@ -1,5 +1,11 @@
 package kr.songjava.web.controller;
 
+import com.nimbusds.oauth2.sdk.ErrorResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.songjava.web.domain.Member;
 import kr.songjava.web.domain.MemberSchedule;
@@ -38,7 +44,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Validated
 @Slf4j
-@Tag(name = "회원 일정관리")
+@Tag(name = "Schedule", description = "회원 일정관리")
 public class ScheduleController {
 
 	private final MemberService memberService;
@@ -49,6 +55,9 @@ public class ScheduleController {
 	 * @return
 	 */
 	@GetMapping
+	@Operation(summary = "일정 조회", description = "회원이 등록된 일정 목록을 리턴한다.", responses = {
+			@ApiResponse(responseCode = "200", description = "일정 조회 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = MemberSchedule.class)))),
+	})
 	public List<MemberSchedule> getList(@AuthenticationPrincipal SecurityUserDetails userDetails) {
 		return memberService.getScheduleList(userDetails.getMemberSeq());
 	}

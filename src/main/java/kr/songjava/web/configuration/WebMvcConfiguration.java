@@ -1,14 +1,23 @@
 package kr.songjava.web.configuration;
 
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Locale;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -33,6 +42,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	@Bean
 	MappingJackson2JsonView jsonView() {
+
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
 		return jsonView;
 	}
@@ -95,6 +105,37 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 			.addResourceLocations("file://" + rootPath);
 		}		
 	}
-	
+
+	@Bean
+	public OpenAPI openAPI() {
+		Info info = new Info()
+			.title("Bckend API")
+			.version("1.0.0")
+			.description("Fastcampus 국비지원과정에서 Spring Boot를 이용한 백엔드 API 문서 입니다.")
+			.termsOfService("http://swagger.io/terms/")
+			.contact(new Contact()
+				.name("songjava-io")
+				.url("https://github.com/songjava-io")
+				.email("songdev2021@gmail.com"))
+			.license(new License()
+				.name("Apache License Version 2.0")
+				.url("http://www.apache.org/licenses/LICENSE-2.0")
+			);
+		final String securitySchemeName = "bearerAuth";
+		return new OpenAPI()
+			.components(
+				new Components()
+					.addSecuritySchemes(securitySchemeName,
+						new io.swagger.v3.oas.models.security.SecurityScheme()
+							.type(io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP)
+							.scheme("bearer")
+							.bearerFormat("JWT")
+							.in(SecurityScheme.In.HEADER).name(HttpHeaders.AUTHORIZATION)
+					)
+			)
+			.security(List.of(new SecurityRequirement().addList(securitySchemeName)))
+			.info(info);
+	}
+
 	
 }
