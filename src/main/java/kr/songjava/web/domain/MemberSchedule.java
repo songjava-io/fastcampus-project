@@ -38,4 +38,8 @@ public class MemberSchedule {
 	@Schema(description = "등록일자")
 	@JsonIgnore
 	private Date regDate;
+
+	@Schema(description = "회원 닉네임")
+	@JsonIgnore
+	private String nickname;
 }

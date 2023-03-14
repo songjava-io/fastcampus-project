@@ -109,8 +109,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	@Bean
 	public OpenAPI openAPI() {
 		Info info = new Info()
-			.title("Bckend API")
-			.version("1.0.0")
+			.title("Backend API")
+			.version("2.0.0")
 			.description("Fastcampus 국비지원과정에서 Spring Boot를 이용한 백엔드 API 문서 입니다.")
 			.termsOfService("http://swagger.io/terms/")
 			.contact(new Contact()

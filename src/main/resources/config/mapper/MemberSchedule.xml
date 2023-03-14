@@ -9,18 +9,22 @@
 	<select id="getList" parameterType="int"
 			resultType="kr.songjava.web.domain.MemberSchedule">
 		SELECT
-			SCHEDULE_TYPE,
-			SCHEDULE_DATE,
-			START_TIME,
-			END_TIME,
-			TITLE
-		FROM T_MEMBER_SCHEDULE
+			MC.SCHEDULE_TYPE,
+			MC.SCHEDULE_DATE,
+			MC.START_TIME,
+			MC.END_TIME,
+			MC.TITLE,
+			M.NICKNAME,
+			MC.REG_DATE
+		FROM T_MEMBER_SCHEDULE MC
+		LEFT OUTER JOIN T_MEMBER M
+		ON MC.MEMBER_SEQ = M.MEMBER_SEQ
 		<where>
 			<if test="memberSeq > 0">
-			AND MEMBER_SEQ = #{memberSeq}
+			AND MC.MEMBER_SEQ = #{memberSeq}
 			</if>
 		</where>
-		ORDER BY SCHEDULE_DATE DESC, START_TIME ASC, END_TIME ASC
+		ORDER BY MC.SCHEDULE_DATE DESC, MC.START_TIME ASC, MC.END_TIME ASC
 	</select>
 
 	<select id="get" parameterType="int"
